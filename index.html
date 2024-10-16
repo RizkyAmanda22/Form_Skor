@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Keluhan Pasien</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #e9ecef;
+        }
+        .container {
+            margin-top: 50px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #007bff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .score-table, .data-table {
+            margin-bottom: 20px;
+            font-size: 0.9em; /* Ukuran font untuk tabel skor */
+        }
+        .data-table {
+            margin-top: 10px; /* Jarak antara tabel data dan tabel skor */
+            font-size: 0.8em; /* Ukuran font lebih kecil untuk tabel data pasien */
+        }
+        .btn-group {
+            margin-top: 20px;
+        }
+
+        /* CSS untuk logo besar */
+        .header-logo {
+            width: 100%; /* Memenuhi lebar halaman */
+            max-height: 200px; /* Atur tinggi maksimal */
+            object-fit: contain; /* Menjaga proporsi gambar */
+            margin-bottom: 20px; /* Jarak bawah */
+        }
+
+        /* CSS untuk menyembunyikan elemen saat print */
+        @media print {
+            .btn-group, select, input[type="date"], .form-control {
+                display: none; /* Sembunyikan tombol, dropdown, dan input tanggal */
+            }
+            .feedback {
+                margin-top: 0; /* Hilangkan margin atas untuk hasil cetak yang lebih rapih */
+            }
+            h4, .form-group label {
+                color: black; /* Pastikan warna teks terlihat jelas saat print */
+            }
+            .print-container {
+                padding: 20px;
+                border: 1px solid #000;
+                border-radius: 10px;
+                background-color: #fff;
+            }
+            .print-header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .print-logo {
+                width: 100%; /* Memenuhi lebar halaman saat print */
+                max-height: 200px; /* Atur tinggi maksimal saat print */
+                object-fit: contain; /* Menjaga proporsi gambar */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="Logo M.jpeg" alt="Logo" class="header-logo"> <!-- Ganti logo.png dengan nama file logo Anda -->
+        <h2>Form Keluhan Pasien</h2>
+
+        <!-- Tabel Keterangan Skor -->
+        <div class="score-table">
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Skor</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Tidak pernah</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Kadang-kadang</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Sering</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tabel Data Diri Pasien -->
+        <h4>Data Diri Pasien</h4>
+        <form id="complaintForm">
+            <div class="data-table">
+                <table class="table table-bordered table-sm">
+                    <tbody>
+                        <tr>
+                            <td><label>Nama Pasien:</label></td>
+                            <td><input type="text" class="form-control form-control-sm" name="nama" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>No Rekam Medis:</label></td>
+                            <td><input type="text" class="form-control form-control-sm" name="noRekamMedis" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Tanggal Lahir:</label></td>
+                            <td><input type="date" class="form-control form-control-sm" name="tanggalLahir" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Berat Badan (kg):</label></td>
+                            <td><input type="number" class="form-control form-control-sm" name="beratBadan" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Tinggi Badan (cm):</label></td>
+                            <td><input type="number" class="form-control form-control-sm" name="tinggiBadan" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Usia (tahun):</label></td>
+                            <td><input type="number" class="form-control form-control-sm" name="usia" required></td>
+                        </tr>
+                        <tr>
+                            <td><label>Golongan Darah:</label></td>
+                            <td>
+                                <select class="form-control form-control-sm" name="golonganDarah" required>
+                                    <option value="">Pilih golongan darah</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="AB">AB</option>
+                                    <option value="O">O</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tabel Pertanyaan -->
+            <h4>Pertanyaan</h4>
+            <div class="form-group">
+                <label>1: Seberapa sering Anda merasa sakit kepala?</label>
+                <select class="form-control" name="q1" required>
+                    <option value="0">Pilih skor</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>2: Seberapa sering Anda merasa mual?</label>
+                <select class="form-control" name="q2" required>
+                    <option value="0">Pilih skor</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>3: Seberapa parah rasa nyeri yang Anda rasakan?</label>
+                <select class="form-control" name="q3" required>
+                    <option value="0">Pilih skor</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Hitung Skor</button>
+                <button type="button" class="btn btn-success" id="saveBtn"><i class="fas fa-save"></i> Simpan</button>
+                <button type="button" class="btn btn-info" id="printBtn"><i class="fas fa-print"></i> Print</button>
+                <button type="button" class="btn btn-danger" id="closeBtn" style="float:right;"><i class="fas fa-times"></i> Tutup</button>
+            </div>
+        </form>
+
+        <div class="feedback" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('complaintForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah pengiriman form
+
+            const form = event.target;
+            const nama = form.nama.value;
+            const noRekamMedis = form.noRekamMedis.value;
+            const tanggalLahir = form.tanggalLahir.value;
+            const beratBadan = form.beratBadan.value;
+            const tinggiBadan = form.tinggiBadan.value;
+            const usia = form.usia.value;
+            const golonganDarah = form.golonganDarah.value;
+            const q1 = parseInt(form.q1.value);
+            const q2 = parseInt(form.q2.value);
+            const q3 = parseInt(form.q3.value);
+            
+            const totalScore = q1 + q2 + q3;
+            let feedback = '';
+
+            if (totalScore <= 3) {
+                feedback = '<div class="alert alert-success">Kondisi Anda relatif baik. Tetap jaga kesehatan dan perhatikan gejala yang muncul!</div>';
+            } else if (totalScore <= 6) {
+                feedback = '<div class="alert alert-warning">Kondisi Anda sedang. Disarankan untuk berkonsultasi dengan dokter jika gejala berlanjut.</div>';
+            } else {
+                feedback = '<div class="alert alert-danger">Kondisi Anda perlu perhatian serius. Segera konsultasikan kepada dokter!</div>';
+            }
+
+            // Tampilkan hasil
+            document.getElementById('result').innerHTML = `
+                <h4>Data Pasien</h4>
+                <table class="table table-bordered">
+                    <tr><td><strong>Nama:</strong></td><td>${nama}</td></tr>
+                    <tr><td><strong>No Rekam Medis:</strong></td><td>${noRekamMedis}</td></tr>
+                    <tr><td><strong>Tanggal Lahir:</strong></td><td>${tanggalLahir}</td></tr>
+                    <tr><td><strong>Berat Badan:</strong></td><td>${beratBadan} kg</td></tr>
+                    <tr><td><strong>Tinggi Badan:</strong></td><td>${tinggiBadan} cm</td></tr>
+                    <tr><td><strong>Usia:</strong></td><td>${usia} tahun</td></tr>
+                    <tr><td><strong>Golongan Darah:</strong></td><td>${golonganDarah}</td></tr>
+                </table>
+                <h4>Pertanyaan dan Skor</h4>
+                <table class="table table-bordered">
+                    <tr><td>1: Seberapa sering Anda merasa sakit kepala?</td><td>Skor: ${q1}</td></tr>
+                    <tr><td>2: Seberapa sering Anda merasa mual?</td><td>Skor: ${q2}</td></tr>
+                    <tr><td>3: Seberapa parah rasa nyeri yang Anda rasakan?</td><td>Skor: ${q3}</td></tr>
+                </table>
+                <h4>Total Skor: ${totalScore}</h4>
+                ${feedback}
+            `;
+        });
+
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            document.getElementById('complaintForm').reset(); // Menghapus semua isian form
+            document.getElementById('result').innerHTML = ''; // Menghapus hasil skor
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            alert('Data berhasil disimpan!'); // Simulasi penyimpanan data
+            // Tambahkan logika penyimpanan data di sini
+        });
+
+        document.getElementById('printBtn').addEventListener('click', function() {
+            const resultContent = document.getElementById('result').innerHTML;
+            const originalContent = document.body.innerHTML;
+
+            document.body.innerHTML = `
+                <div class="print-container">
+                    <div class="print-header">
+                        <img src="Logo M.jpeg" alt="Logo" class="print-logo"> <!-- Ganti logo.png dengan nama file logo Anda -->
+                        <h2>Hasil Pemeriksaan Pasien</h2>
+                    </div>
+                    ${resultContent} <!-- Menghilangkan header "Data Pasien" yang ganda -->
+                </div>
+            `; // Ganti konten body dengan hasil
+            window.print(); // Fungsi untuk mencetak halaman
+            document.body.innerHTML = originalContent; // Kembalikan konten body ke aslinya
+        });
+    </script>
+</body>
+</html>
