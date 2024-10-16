@@ -31,34 +31,32 @@
         }
         .score-table, .data-table {
             margin-bottom: 20px;
-            font-size: 0.9em; /* Ukuran font untuk tabel skor */
+            font-size: 0.9em;
         }
         .data-table {
-            margin-top: 10px; /* Jarak antara tabel data dan tabel skor */
-            font-size: 0.8em; /* Ukuran font lebih kecil untuk tabel data pasien */
+            margin-top: 10px;
+            font-size: 0.8em;
         }
         .btn-group {
             margin-top: 20px;
         }
 
-        /* CSS untuk logo besar */
         .header-logo {
-            width: 100%; /* Memenuhi lebar halaman */
-            max-height: 200px; /* Atur tinggi maksimal */
-            object-fit: contain; /* Menjaga proporsi gambar */
-            margin-bottom: 20px; /* Jarak bawah */
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
         }
 
-        /* CSS untuk menyembunyikan elemen saat print */
         @media print {
             .btn-group, select, input[type="date"], .form-control {
-                display: none; /* Sembunyikan tombol, dropdown, dan input tanggal */
+                display: none;
             }
             .feedback {
-                margin-top: 0; /* Hilangkan margin atas untuk hasil cetak yang lebih rapih */
+                margin-top: 0;
             }
             h4, .form-group label {
-                color: black; /* Pastikan warna teks terlihat jelas saat print */
+                color: black;
             }
             .print-container {
                 padding: 20px;
@@ -66,24 +64,19 @@
                 border-radius: 10px;
                 background-color: #fff;
             }
-            .print-header {
-                text-align: center;
-                margin-bottom: 20px;
-            }
             .print-logo {
-                width: 100%; /* Memenuhi lebar halaman saat print */
-                max-height: 200px; /* Atur tinggi maksimal saat print */
-                object-fit: contain; /* Menjaga proporsi gambar */
+                width: 100%;
+                max-height: 200px;
+                object-fit: contain;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="Logo M.jpeg" alt="Logo" class="header-logo"> <!-- Ganti logo.png dengan nama file logo Anda -->
+        <img src="Logo M.jpeg" alt="Logo" class="header-logo">
         <h2>Form Keluhan Pasien</h2>
 
-        <!-- Tabel Keterangan Skor -->
         <div class="score-table">
             <table class="table table-bordered table-sm">
                 <thead>
@@ -109,7 +102,6 @@
             </table>
         </div>
 
-        <!-- Tabel Data Diri Pasien -->
         <h4>Data Diri Pasien</h4>
         <form id="complaintForm">
             <div class="data-table">
@@ -125,7 +117,7 @@
                         </tr>
                         <tr>
                             <td><label>Tanggal Lahir:</label></td>
-                            <td><input type="date" class="form-control form-control-sm" name="tanggalLahir" required></td>
+                            <td><input type="date" class="form-control form-control-sm" name="tanggalLahir" required onchange="calculateAge()"></td>
                         </tr>
                         <tr>
                             <td><label>Berat Badan (kg):</label></td>
@@ -137,7 +129,7 @@
                         </tr>
                         <tr>
                             <td><label>Usia (tahun):</label></td>
-                            <td><input type="number" class="form-control form-control-sm" name="usia" required></td>
+                            <td><input type="number" class="form-control form-control-sm" name="usia" id="usia" readonly></td>
                         </tr>
                         <tr>
                             <td><label>Golongan Darah:</label></td>
@@ -155,7 +147,6 @@
                 </table>
             </div>
 
-            <!-- Tabel Pertanyaan -->
             <h4>Pertanyaan</h4>
             <div class="form-group">
                 <label>1: Seberapa sering Anda merasa sakit kepala?</label>
@@ -197,6 +188,17 @@
     </div>
 
     <script>
+        function calculateAge() {
+            const dob = new Date(document.querySelector('input[name="tanggalLahir"]').value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('usia').value = age; // Isi usia otomatis
+        }
+
         document.getElementById('complaintForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Mencegah pengiriman form
 
@@ -266,11 +268,11 @@
                         <img src="Logo M.jpeg" alt="Logo" class="print-logo"> <!-- Ganti logo.png dengan nama file logo Anda -->
                         <h2>Hasil Pemeriksaan Pasien</h2>
                     </div>
-                    ${resultContent} <!-- Menghilangkan header "Data Pasien" yang ganda -->
+                    ${resultContent}
                 </div>
-            `; // Ganti konten body dengan hasil
-            window.print(); // Fungsi untuk mencetak halaman
-            document.body.innerHTML = originalContent; // Kembalikan konten body ke aslinya
+            `;
+            window.print();
+            document.body.innerHTML = originalContent;
         });
     </script>
 </body>
